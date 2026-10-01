@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مختبر شاطئ الفناتير الافتراضي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf4e4;--card:#fffdf7;--ink:#13303a;--mut:#58747c;--sea:#1f8a9e;--deep:#0d4a5c;--sun:#e8791a;--ok:#2a9d5c;--bad:#c8402f;--line:#e4d6b4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1d24;--card:#10303b;--ink:#eaf4f2;--mut:#9dbcc2;--sea:#4db8cc;--deep:#8fd3e0;--sun:#f5a04a;--line:#24505e}}
+:root[data-theme="dark"]{--bg:#0b1d24;--card:#10303b;--ink:#eaf4f2;--mut:#9dbcc2;--sea:#4db8cc;--deep:#8fd3e0;--sun:#f5a04a;--line:#24505e}
+*{box-sizing:inherit}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tajawal,Tahoma,Arial,sans-serif;line-height:1.8;font-size:17px}
+header{background:var(--deep);color:#fff;padding:22px 16px 18px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) header{color:#0b1d24}}
+header h1{margin:0;font-size:1.6rem;font-weight:800}header p{margin:2px 0 12px;opacity:.85;font-size:.95rem}
+.bar{height:8px;background:rgba(255,255,255,.25);border-radius:8px;overflow:hidden;max-width:420px}
+.bar i{display:block;height:100%;width:0;background:var(--sun);transition:width .4s}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--line)}
+nav button{flex:0 0 auto;font:inherit;font-size:.92rem;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:6px 14px;border-radius:20px;cursor:pointer}
+nav button.on{background:var(--sea);border-color:var(--sea);color:#fff;font-weight:700}
+nav button.ok::after{content:" ✓";color:var(--ok)}nav button.on.ok::after{color:#fff}
+main{max-width:760px;margin:0 auto;padding:16px 14px 50px}
+section{display:none}section.on{display:block}
+h2{margin:6px 0 4px;font-size:1.3rem;color:var(--deep)}
+.q{color:var(--mut);margin:0 0 12px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+svg{width:100%;height:auto;display:block;border-radius:12px;max-width:100%}
+.hot{cursor:pointer;font-size:34px;transition:transform .15s}.hot:hover,.hot:focus{transform:scale(1.25);outline:none}.hot.f{filter:drop-shadow(0 0 6px #ffd24a)}
+.btn{font:inherit;border:0;background:var(--sea);color:#fff;padding:8px 18px;border-radius:10px;cursor:pointer;font-weight:700}
+.btn:focus-visible,nav button:focus-visible,.chip:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 14px;border-radius:10px;cursor:pointer;text-align:start}
+.chip.sel{border-color:var(--sea);background:var(--sea);color:#fff}
+.chip.done{border-color:var(--ok);background:var(--ok);color:#fff}
+.chip.no{animation:sh .3s;border-color:var(--bad)}
+@keyframes sh{25%{transform:translateX(6px)}75%{transform:translateX(-6px)}}
+@media (prefers-reduced-motion:reduce){.chip.no{animation:none}.hot,.bar i{transition:none}}
+.msg{min-height:1.8em;font-weight:700;margin:8px 0}.msg.g{color:var(--ok)}.msg.b{color:var(--bad)}
+.ans{border-inline-start:5px solid var(--sun);background:var(--card);padding:10px 14px;border-radius:8px;margin:12px 0;display:block}
+.ans.show{display:block}.ans b{color:var(--sun)}
+label.s{display:block;margin:10px 0 0;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--sea)}
+.nest{font-size:2rem;min-height:3rem;letter-spacing:4px}
+.rep li{margin:6px 0}
+.tag{display:inline-block;font-size:.8rem;padding:0 8px;border-radius:8px;background:var(--line);color:var(--ink)}
+.tag.ok{background:var(--ok);color:#fff}
+</style>
+</head>
+<body>
+<header>
+<h1>مختبر الاستكشاف الافتراضي: شاطئ الفناتير</h1>
+<p>الطريقة العلمية • أربع محطات بحسب أسئلة «أستكشف»</p>
+<div class="bar"><i id="pb"></i></div>
+</header>
+<nav id="nav"></nav>
+<main>
+
+<!-- المحطة 1 -->
+<section id="s0">
+<h2>المحطة ١: ماذا أعرف عن الحيوانات التي تعيش في شاطئ الفناتير؟</h2>
+<p class="q">اضغط على كل حيوان في المشهد لتسجيل ملاحظاتك. اكتشف الأربعة جميعًا.</p>
+<svg viewBox="0 0 600 300" role="img" aria-label="مشهد شاطئ الفناتير عند الغروب">
+<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a5f86"/><stop offset=".6" stop-color="#f3a04a"/><stop offset="1" stop-color="#f7cf7a"/></linearGradient></defs>
+<rect width="600" height="150" fill="url(#sk)"/>
+<circle cx="330" cy="125" r="26" fill="#ffe08a"/>
+<rect y="140" width="600" height="70" fill="#2a8ea4"/><rect y="140" width="600" height="10" fill="#f3b46a" opacity=".5"/>
+<path d="M0 205 Q150 185 300 205 T600 195 V300 H0Z" fill="#ecd6a2"/>
+<path d="M0 255 Q200 235 400 255 T600 250 V300 H0Z" fill="#b99c6e"/>
+<g stroke="#5a3d1c" stroke-width="3"><line x1="120" y1="195" x2="120" y2="240"/><line x1="200" y1="198" x2="200" y2="240"/></g>
+<path d="M90 198 L120 178 L150 198Z M170 200 L200 182 L230 200Z" fill="#8a6a3a"/>
+<g class="hot" tabindex="0" role="button" aria-label="طائر الخرشنة" data-k="tern" transform="translate(400,215)"><text>🐦</text></g>
+<g class="hot" tabindex="0" role="button" aria-label="سلطعون" data-k="crab" transform="translate(300,235)"><text>🦀</text></g>
+<g class="hot" tabindex="0" role="button" aria-label="سمكة الغرموط" data-k="skip" transform="translate(70,285)"><text>🐟</text></g>
+<g class="hot" tabindex="0" role="button" aria-label="نوارس" data-k="gull" transform="translate(470,80)"><text>🕊️</text></g>
+</svg>
+<div class="card" id="fact">اختر حيوانًا لتبدأ الملاحظة.</div>
+<p><b id="fc">0</b> / 4 اكتشافات</p>
+<div class="card"><b>دفتر الملاحظات</b><ul id="nb" style="margin:6px 0 0;padding-inline-start:20px"></ul></div>
+<div class="ans" id="a0"><b>الإجابة:</b> تعيش في شاطئ الفناتير حيوانات متنوعة، منها طيور مثل الخرشنة والنوارس، ومنها السلطعون وسمك الغرموط. تتغذى على الأسماك وبقايا الكائنات البحرية، وتعيش في الرمال والطين والماء، وكلٌّ منها يتكيف مع موطنه.</div>
+</section>
+
+<!-- المحطة 2 -->
+<section id="s1">
+<h2>المحطة ٢: كيف أبحث عن الحيوانات في موطنها الطبيعي؟</h2>
+<p class="q">الخطوة أ: جهّز حقيبة الباحث. اختر الأدوات المناسبة فقط.</p>
+<div class="chips" id="tools"></div>
+<p><button class="btn" id="tchk">تحقق من الحقيبة</button></p>
+<div class="msg" id="tm"></div>
+<p class="q">الخطوة ب: رتّب خطوات الملاحظة الميدانية بالضغط عليها بالترتيب الصحيح.</p>
+<div class="chips" id="ord1"></div>
+<div class="msg" id="om1"></div>
+<div class="ans" id="a1"><b>الإجابة:</b> أبحث عن الحيوانات بالملاحظة الهادئة في موطنها: أقترب دون إزعاج، وأستخدم المنظار والمكبّرة، وأسجّل ما أراه في دفتر وأصوّر وأعدّ الحيوانات، ثم أغادر دون أن أؤذي الموطن أو الحيوانات.</div>
+</section>
+
+<!-- المحطة 3 -->
+<section id="s2">
+<h2>المحطة ٣: ما الذي يحتاج إليه الحيوان لكي يتكاثر؟</h2>
+<p class="q">حاكِ طائر الخرشنة. غيّر العوامل وراقب عدد البيض والفقس. اجعل كل عامل ٧٠٪ أو أكثر.</p>
+<div class="card">
+<label class="s" for="r0">🐟 الغذاء: <span id="v0">50</span>٪</label><input id="r0" type="range" min="0" max="100" value="50">
+<label class="s" for="r1">🏖️ مكان آمن للعش: <span id="v1">50</span>٪</label><input id="r1" type="range" min="0" max="100" value="50">
+<label class="s" for="r2">🐦 وجود شريك: <span id="v2">50</span>٪</label><input id="r2" type="range" min="0" max="100" value="50">
+<label class="s" for="r3">🌡️ ماء وحرارة مناسبان: <span id="v3">50</span>٪</label><input id="r3" type="range" min="0" max="100" value="50">
+</div>
+<div class="card"><div>البيض: <span class="nest" id="eg"></span></div><div>الفقس: <span class="nest" id="hc"></span></div></div>
+<div class="msg" id="m3"></div>
+<div class="ans" id="a2"><b>الإجابة:</b> يحتاج الحيوان لكي يتكاثر إلى: غذاء كافٍ، ومكان آمن للعش أو المأوى، وشريك من نوعه، وبيئة مناسبة من ماء وحرارة. إذا نقص أحد هذه العوامل قلّ التكاثر.</div>
+</section>
+
+<!-- المحطة 4 -->
+<section id="s3">
+<h2>المحطة ٤: كيف يبحث العلماء عن إجابات لهذه الأسئلة؟</h2>
+<p class="q">رتّب خطوات الطريقة العلمية بالضغط عليها بالترتيب الصحيح.</p>
+<div class="chips" id="ord2"></div>
+<div class="msg" id="om2"></div>
+<div class="ans" id="a3"><b>الإجابة:</b> يتبع العلماء الطريقة العلمية: يطرحون سؤالًا، ويضعون فرضية، ويجرون ملاحظات وتجارب، ويسجّلون البيانات ويحلّلونها، ثم يستنتجون ويشاركون النتائج.</div>
+</section>
+
+<!-- التقرير -->
+<section id="s4">
+<h2>تقرير المختبر</h2>
+<p class="q">ملخص الأسئلة الأربعة وإجاباتها.</p>
+<div class="card rep"><ol>
+<li><b>ماذا أعرف عن الحيوانات التي تعيش في شاطئ الفناتير؟</b> <span class="tag" id="t0">قيد العمل</span><br>طيور (الخرشنة والنوارس)، وسلطعون، وسمك الغرموط؛ تتغذى على الأسماك وبقايا الكائنات وتتكيف مع الرمل والطين والماء.</li>
+<li><b>كيف أبحث عن الحيوانات في موطنها الطبيعي؟</b> <span class="tag" id="t1">قيد العمل</span><br>بالملاحظة الهادئة مع المنظار والمكبّرة والدفتر والكاميرا، دون إيذاء الحيوانات.</li>
+<li><b>ما الذي يحتاج إليه الحيوان لكي يتكاثر؟</b> <span class="tag" id="t2">قيد العمل</span><br>غذاء، ومكان آمن للعش، وشريك، وبيئة مناسبة.</li>
+<li><b>كيف يبحث العلماء عن إجابات لهذه الأسئلة؟</b> <span class="tag" id="t3">قيد العمل</span><br>بالطريقة العلمية: سؤال، فرضية، ملاحظة وتجربة، تحليل البيانات، استنتاج، ثم مشاركة النتائج.</li>
+</ol></div>
+<div class="msg g" id="fin"></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const titles=["١ الحيوانات","٢ البحث","٣ التكاثر","٤ العلماء","التقرير"];
+const done=new Set();
+function show(i){document.querySelectorAll("section").forEach((s,k)=>s.classList.toggle("on",k===i));[...$("nav").children].forEach((b,k)=>b.classList.toggle("on",k===i));scrollTo(0,0)}
+titles.forEach((t,i)=>{const b=document.createElement("button");b.textContent=t;b.onclick=()=>show(i);$("nav").appendChild(b)});
+function fin(i){if(done.has(i))return;done.add(i);$("a"+i).classList.add("show");$("nav").children[i].classList.add("ok");const t=$("t"+i);t.textContent="أُنجزت";t.classList.add("ok");$("pb").style.width=done.size*25+"%";if(done.size===4){$("nav").children[4].classList.add("ok");$("fin").textContent="🎉 أنجزت المختبر كاملًا. أحسنت أيها الباحث!"}}
+show(0);
+
+/* المحطة 1 */
+const F={tern:["طائر الخرشنة","يعيش على الشاطئ ويصطاد الأسماك بالانقضاض على الماء، ويضع بيضه في عش على الرمال."],
+crab:["السلطعون","يحفر جحرًا في الرمل أو الطين، ويتغذى على بقايا الكائنات، ويخرج للبحث عن الطعام عند انحسار الماء."],
+skip:["سمك الغرموط","سمكة تتنقل على الطين الرطب وتتنفس جزئيًا خارج الماء عند الجزر."],
+gull:["النوارس","طيور بحرية تحلّق في أسراب فوق الماء وتتغذى على الأسماك الصغيرة وبقايا الطعام."]};
+const found=new Set();
+document.querySelectorAll(".hot").forEach(g=>{const go=()=>{const k=g.dataset.k,[n,d]=F[k];$("fact").innerHTML="<b>"+n+":</b> "+d;if(!found.has(k)){found.add(k);g.classList.add("f");const li=document.createElement("li");li.textContent=n+": "+d;$("nb").appendChild(li);$("fc").textContent=found.size;if(found.size===4)fin(0)}};g.onclick=go;g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+
+/* ترتيب بالضغط */
+function order(id,msgId,items,cb){const box=$(id),m=$(msgId);let nx=0;items.map((t,i)=>[t,i]).sort(()=>Math.random()-.5).forEach(([t,i])=>{const b=document.createElement("button");b.className="chip";b.textContent=t;b.onclick=()=>{if(b.classList.contains("done"))return;if(i===nx){nx++;b.classList.add("done");b.textContent=nx+". "+t;m.className="msg g";m.textContent=nx<items.length?"صحيح! ما الخطوة التالية؟":"ترتيب صحيح ✓";if(nx===items.length)cb()}else{b.classList.remove("no");void b.offsetWidth;b.classList.add("no");m.className="msg b";m.textContent="ليست هذه الخطوة التالية. فكّر مرة أخرى."}};box.appendChild(b)})}
+
+/* المحطة 2 */
+const tools=[["منظار 🔭",1],["دفتر ملاحظات 📓",1],["كاميرا 📷",1],["مكبّرة 🔍",1],["شبكة لاصطياد الطيور 🥅",0],["مكبّر صوت 📢",0]];
+let t2=false,o2=false;
+tools.forEach(([t,ok])=>{const b=document.createElement("button");b.className="chip";b.textContent=t;b.onclick=()=>b.classList.toggle("sel");b.dataset.ok=ok;$("tools").appendChild(b)});
+$("tchk").onclick=()=>{const ch=[...$("tools").children],good=ch.every(b=>b.classList.contains("sel")===(b.dataset.ok==="1")),m=$("tm");if(good){t2=true;m.className="msg g";m.textContent="حقيبة صحيحة ✓ نراقب الحيوانات ولا نؤذيها أو نزعجها.";if(o2)fin(1)}else{m.className="msg b";m.textContent="راجع اختيارك: الأدوات للملاحظة والتسجيل فقط، دون إيذاء أو إزعاج."}};
+order("ord1","om1",["أقترب من الموقع بهدوء","أراقب الحيوانات بالمنظار والمكبّرة","أسجّل ملاحظاتي ورسومي في الدفتر","أصوّر الحيوانات وأعدّها","أغادر دون ترك أثر في الموطن"],()=>{o2=true;if(t2)fin(1)});
+
+/* المحطة 3 */
+const nm=["الغذاء","المكان الآمن للعش","وجود الشريك","الماء والحرارة المناسبان"];
+function upd(){const v=[0,1,2,3].map(i=>{const x=+$("r"+i).value;$("v"+i).textContent=x;return x}),mn=Math.min(...v),e=Math.round(mn/100*6),h=mn>=70?e:0;
+$("eg").textContent="🥚".repeat(e)||"—";$("hc").textContent="🐣".repeat(h)||"—";
+const m=$("m3");if(mn>=70){m.className="msg g";m.textContent="تكاثر ناجح! توفرت كل الاحتياجات.";fin(2)}else{m.className="msg b";m.textContent="العامل الناقص: "+nm[v.indexOf(mn)]+". ارفعه لزيادة الفقس."}}
+for(let i=0;i<4;i++)$("r"+i).oninput=upd;upd();
+
+/* المحطة 4 */
+order("ord2","om2",["أطرح سؤالًا","أضع فرضية (إجابة متوقعة)","أجري الملاحظات أو التجربة","أسجّل البيانات وأحلّلها","أستنتج","أشارك النتائج"],()=>fin(3));
+</script>
+</body>
+</html>
